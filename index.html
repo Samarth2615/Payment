@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Gateway</title>
+</head>
+<body>
+    <h1>Make a Payment</h1>
+    <p>Click the button below to make a payment.</p>
+    <button id="pay-btn">Pay Now</button>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        var options = {
+            "key": "YOUR_API_KEY", // Replace with your Razorpay API key
+            "amount": "50000", // Amount in smallest currency unit (50000 = ₹500)
+            "currency": "INR",
+            "name": "Your Payment Gateway",
+            "description": "Payment for services",
+            "handler": function (response) {
+                alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
+            },
+            "prefill": {
+                "email": "test@example.com",
+                "contact": "9253323008"
+            },
+            "theme": {
+                "color": "#F37254"
+            }
+        };
+
+        var rzp1 = new Razorpay(options);
+        document.getElementById('pay-btn').onclick = function(e){
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+</body>
+</html>
