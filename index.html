@@ -17,7 +17,6 @@
             align-items: center;
             height: 100vh;
         }
-
         .container {
             width: 400px;
             background-color: white;
@@ -26,31 +25,17 @@
             border-radius: 15px;
             text-align: center;
         }
-
         h1 {
             font-size: 26px;
             font-weight: 700;
             color: #333;
             margin-bottom: 25px;
         }
-
-        .currency-container {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .currency-container label {
-            font-weight: 700;
-            margin-right: 10px;
-        }
-
         .currency-selection {
             margin-bottom: 20px;
             display: flex;
             justify-content: space-evenly;
         }
-
         .currency-selection button {
             background-color: #007bff;
             color: white;
@@ -62,15 +47,12 @@
             font-weight: bold;
             transition: background-color 0.3s;
         }
-
         .currency-selection button:hover {
             background-color: #0056b3;
         }
-
         .amount-input-container {
             margin-bottom: 25px;
         }
-
         .amount-input {
             width: 100%;
             padding: 12px;
@@ -79,7 +61,6 @@
             border-radius: 8px;
             text-align: center;
         }
-
         .pay-btn {
             background-color: #28a745;
             color: white;
@@ -92,11 +73,9 @@
             font-weight: bold;
             transition: background-color 0.3s;
         }
-
         .pay-btn:hover {
             background-color: #218838;
         }
-
         .popup {
             display: none;
             position: absolute;
@@ -110,17 +89,14 @@
             width: 300px;
             text-align: center;
         }
-
         .popup.active {
             display: block;
         }
-
         .payment-option {
             display: flex;
             justify-content: space-around;
             margin-top: 20px;
         }
-
         .payment-option button {
             background-color: #007bff;
             color: white;
@@ -129,11 +105,6 @@
             border-radius: 5px;
             cursor: pointer;
         }
-
-        .payment-option button i {
-            margin-right: 5px;
-        }
-
     </style>
 </head>
 <body>
@@ -141,27 +112,22 @@
     <div class="container">
         <h1>Pay to Samarth</h1>
 
-        <!-- Currency Selection -->
         <div class="currency-selection">
             <button onclick="setCurrency('rupee')">₹ Rupees</button>
             <button onclick="setCurrency('dollar')">$ Dollars</button>
             <button onclick="setCurrency('bitcoin')">₿ Bitcoin</button>
         </div>
 
-        <!-- Amount Input -->
         <div class="amount-input-container">
             <input type="number" id="amountInput" class="amount-input" placeholder="Enter amount" />
         </div>
 
-        <!-- Pay Button -->
         <button class="pay-btn" onclick="showPopup()">Pay Now</button>
     </div>
 
-    <!-- Popup for Payment Method -->
     <div class="popup" id="paymentPopup">
         <h2>Confirm Payment</h2>
         <p>Amount: <span id="confirmAmount"></span></p>
-
         <div class="payment-option">
             <button onclick="proceedToPayment('Net Banking')">
                 <i class="fas fa-university"></i> Net Banking
@@ -172,6 +138,46 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        let selectedCurrency = 'rupee';
+        let amount = 0;
+
+        function setCurrency(currency) {
+            selectedCurrency = currency;
+            document.getElementById('amountInput').placeholder = `Enter amount in ${getCurrencySymbol()}`;
+            document.getElementById('amountInput').value = '';
+        }
+
+        function showPopup() {
+            let amountInput = document.getElementById('amountInput').value;
+
+            if (!amountInput || amountInput <= 0) {
+                alert("Please enter a valid amount to proceed with payment.");
+                return;
+            }
+
+            amount = amountInput;
+            document.getElementById('confirmAmount').textContent = `${amount} ${getCurrencySymbol()}`;
+            document.getElementById('paymentPopup').classList.add('active');
+        }
+
+        function proceedToPayment(method) {
+            let amount = document.getElementById('amountInput').value;
+            if (amount && amount > 0) {
+                const upiLink = `upi://pay?pa=ankurpunia526@okhdfcbank&pn=Samarth&tn=Payment%20for%20Services&am=${encodeURIComponent(amount)}&cu=INR`;
+                window.location.href = upiLink;
+            } else {
+                alert("Please enter a valid amount to proceed with payment.");
+            }
+        }
+
+        function getCurrencySymbol() {
+            switch (selectedCurrency) {
+                case 'rupee': return '₹';
+                case 'dollar': return '$';
+                case 'bitcoin': return '₿';
+            }
+        }
+    </script>
 </body>
 </html>
