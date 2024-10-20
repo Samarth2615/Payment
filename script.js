@@ -3,9 +3,9 @@ let amount = 0;
 
 // Define conversion rates for demonstration
 const conversionRates = {
-    dollar: 80, // 1 Dollar = 80 Rupees
+    dollar: 80,   // 1 Dollar = 80 Rupees
     bitcoin: 30000, // 1 Bitcoin = 30,000 Rupees
-    rupee: 1 // 1 Rupee = 1 Rupee
+    rupee: 1      // 1 Rupee = 1 Rupee
 };
 
 // Function to set the selected currency
@@ -24,10 +24,7 @@ function showPopup() {
         return;
     }
 
-    // Convert the amount to Rupees based on the selected currency
-    amount = convertToRupees(amountInput);
-    
-    // Show the amount in the selected currency
+    // Show the entered amount in the selected currency
     document.getElementById('confirmAmount').textContent = `${amountInput} ${getCurrencySymbol()}`;
     document.getElementById('paymentPopup').classList.add('active'); // Activate the popup
 }
@@ -49,8 +46,11 @@ function convertToRupees(amountInput) {
 function proceedToPayment(method) {
     let amountInput = document.getElementById('amountInput').value; // Get the entered amount
     if (amountInput && amountInput > 0) {
+        // Convert the amount for processing in the UPI link
+        const amountInRupees = convertToRupees(amountInput);
+        
         // Create UPI link dynamically based on the input amount in Rupees
-        const upiLink = `upi://pay?pa=ankurpunia526@okhdfcbank&pn=Samarth&tn=Payment%20for%20Services&am=${encodeURIComponent(convertToRupees(amountInput))}&cu=INR`;
+        const upiLink = `upi://pay?pa=ankurpunia526@okhdfcbank&pn=Samarth&tn=Payment%20for%20Services&am=${encodeURIComponent(amountInRupees)}&cu=INR`;
         
         // Open the UPI app with the generated link
         window.location.href = upiLink;
