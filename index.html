@@ -3,37 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Gateway</title>
+    <title>Pay to Samarth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 350px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .currency-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .currency-container label {
+            font-weight: 700;
+        }
+
+        .slider-container {
+            margin: 20px 0;
+        }
+
+        .slider {
+            width: 100%;
+        }
+
+        .currency-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .pay-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .popup {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .popup.active {
+            display: block;
+        }
+
+        .payment-option {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .payment-option button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .payment-option button i {
+            margin-right: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Make a Payment</h1>
-    <p>Click the button below to make a payment.</p>
-    <button id="pay-btn">Pay Now</button>
 
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <div class="container">
+        <h1>Pay to Samarth</h1>
+
+        <!-- Currency Selection -->
+        <div class="currency-container">
+            <label>Rupee ₹</label>
+            <input type="radio" name="currency" id="rupee" checked onclick="setCurrency('rupee')">
+            <label>Dollar $</label>
+            <input type="radio" name="currency" id="dollar" onclick="setCurrency('dollar')">
+            <label>Bitcoin ₿</label>
+            <input type="radio" name="currency" id="bitcoin" onclick="setCurrency('bitcoin')">
+        </div>
+
+        <!-- Slider for Amount Selection -->
+        <div class="slider-container">
+            <input type="range" min="50" max="1000" value="100" class="slider" id="amountSlider" oninput="updateAmount()">
+            <input type="number" class="currency-input" id="amountInput" value="100" oninput="updateSlider()">
+        </div>
+
+        <button class="pay-btn" onclick="showPopup()">Pay Now</button>
+    </div>
+
+    <!-- Popup for Payment Method -->
+    <div class="popup" id="paymentPopup">
+        <h2>Confirm Payment</h2>
+        <p>Amount: <span id="confirmAmount"></span></p>
+
+        <div class="payment-option">
+            <button onclick="proceedToPayment('Net Banking')">
+                <i class="fas fa-university"></i> Net Banking
+            </button>
+            <button onclick="proceedToPayment('Card')">
+                <i class="fas fa-credit-card"></i> Card
+            </button>
+        </div>
+    </div>
+
     <script>
-        var options = {
-            "key": "YOUR_API_KEY", // Replace with your Razorpay API key
-            "amount": "50000", // Amount in smallest currency unit (50000 = ₹500)
-            "currency": "INR",
-            "name": "Your Payment Gateway",
-            "description": "Payment for services",
-            "handler": function (response) {
-                alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
-            },
-            "prefill": {
-                "email": "test@example.com",
-                "contact": "9253323008"
-            },
-            "theme": {
-                "color": "#F37254"
-            }
-        };
+        let selectedCurrency = 'rupee';
+        let amount = 100;
 
-        var rzp1 = new Razorpay(options);
-        document.getElementById('pay-btn').onclick = function(e){
-            rzp1.open();
-            e.preventDefault();
+        // Function to update slider based on input
+        function updateAmount() {
+            const slider = document.getElementById('amountSlider');
+            const input = document.getElementById('amountInput');
+            input.value = slider.value;
+            amount = slider.value;
+        }
+
+        // Function to update slider when input is changed
+        function updateSlider() {
+            const slider = document.getElementById('amountSlider');
+            const input = document.getElementById('amountInput');
+            slider.value = input.value;
+            amount = input.value;
+        }
+
+        // Function to change currency
+        function setCurrency(currency) {
+            selectedCurrency = currency;
+            updateConversion();
+        }
+
+        // Function to show the payment popup
+        function showPopup() {
+            document.getElementById('paymentPopup').classList.add('active');
+            document.getElementById('confirmAmount').textContent = `${amount} ${getCurrencySymbol()}`;
+        }
+
+        // Function to proceed to payment
+        function proceedToPayment(method) {
+            alert(`Proceeding with ${method} payment for ${amount} ${getCurrencySymbol()}`);
+            // Redirect to UPI payment using the UPI link format
+            window.location.href = `upi://pay?pa=9253323008@fam&pn=Samarth&am=${amount}&cu=INR`;
+        }
+
+        // Function to get the currency symbol based on selection
+        function getCurrencySymbol() {
+            switch (selectedCurrency) {
+                case 'rupee': return '₹';
+                case 'dollar': return '$';
+                case 'bitcoin': return '₿';
+            }
+        }
+
+        // Function to update conversion rates (just mock for now)
+        function updateConversion() {
+            // Update amounts based on currency, mock conversion rates
+            const conversionRates = {
+                'rupee': 1,
+                'dollar': 0.012,
+                'bitcoin': 0.0000003
+            };
+            document.getElementById('amountInput').value = (amount * conversionRates[selectedCurrency]).toFixed(2);
+            document.getElementById('amountSlider').value = document.getElementById('amountInput').value;
         }
     </script>
 </body>
