@@ -26,9 +26,11 @@ function showPopup() {
 function proceedToPayment(method) {
     let amount = document.getElementById('amountInput').value; // get entered amount
     if (amount && amount > 0) {
-        // Create UPI link dynamically based on input amount
-        const upiLink = `upi://pay?pa=9518230329@fam&pn=Samarth&tn=Payment%20for%20Services&am=${encodeURIComponent(amount)}&cu=INR`;
-        
+        // Function to generate UPI link
+function generateUPILink(amount) {
+    const upiId = 'ankurpunia526@okhdfcbank'; // Your UPI ID
+    const upiLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=Samarth&tn=Payment%20for%20Services&am=${encodeURIComponent(amount)}&cu=INR`;
+    
         // Open the UPI app with the generated link
         window.location.href = upiLink;
     } else {
