@@ -153,7 +153,7 @@
         let selectedCurrency = 'rupee';
         let amount = 100;
 
-        // Function to update slider based on input
+        // Function to update slider and input field
         function updateAmount() {
             const slider = document.getElementById('amountSlider');
             const input = document.getElementById('amountInput');
@@ -169,7 +169,7 @@
             amount = input.value;
         }
 
-        // Function to change currency
+        // Function to set the selected currency
         function setCurrency(currency) {
             selectedCurrency = currency;
             updateConversion();
@@ -205,8 +205,10 @@
                 'dollar': 0.012,
                 'bitcoin': 0.0000003
             };
-            document.getElementById('amountInput').value = (amount * conversionRates[selectedCurrency]).toFixed(2);
-            document.getElementById('amountSlider').value = document.getElementById('amountInput').value;
+            const slider = document.getElementById('amountSlider');
+            const input = document.getElementById('amountInput');
+            input.value = (amount * conversionRates[selectedCurrency]).toFixed(2);
+            slider.value = input.value;
         }
     </script>
 </body>
