@@ -29,7 +29,7 @@ function showPopup() {
     document.getElementById('paymentPopup').classList.add('active'); // Activate the popup
 }
 
-// Function to convert the amount to Rupees
+// Function to convert the amount to Rupees for UPI payment
 function convertToRupees(amountInput) {
     switch (selectedCurrency) {
         case 'dollar':
@@ -47,7 +47,7 @@ function proceedToPayment(method) {
     let amountInput = document.getElementById('amountInput').value; // Get the entered amount
     if (amountInput && amountInput > 0) {
         // Convert the amount for processing in the UPI link
-        const amountInRupees = convertToRupees(amountInput);
+        const amountInRupees = convertToRupees(parseFloat(amountInput));
         
         // Create UPI link dynamically based on the input amount in Rupees
         const upiLink = `upi://pay?pa=ankurpunia526@okhdfcbank&pn=Samarth&tn=Payment%20for%20Services&am=${encodeURIComponent(amountInRupees)}&cu=INR`;
