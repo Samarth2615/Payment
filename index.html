@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f9;
+            background-color: #f5f5f5;
             margin: 0;
             padding: 0;
             display: flex;
@@ -19,19 +19,19 @@
         }
 
         .container {
-            width: 350px;
+            width: 400px;
             background-color: white;
-            padding: 20px;
+            padding: 30px;
             box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
             text-align: center;
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 26px;
             font-weight: 700;
             color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .currency-container {
@@ -42,34 +42,59 @@
 
         .currency-container label {
             font-weight: 700;
+            margin-right: 10px;
         }
 
-        .slider-container {
-            margin: 20px 0;
+        .currency-selection {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-evenly;
         }
 
-        .slider {
-            width: 100%;
-        }
-
-        .currency-input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
+        .currency-selection button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
             border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .currency-selection button:hover {
+            background-color: #0056b3;
+        }
+
+        .amount-input-container {
+            margin-bottom: 25px;
+        }
+
+        .amount-input {
+            width: 100%;
+            padding: 12px;
             font-size: 18px;
-            margin-top: 10px;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            text-align: center;
         }
 
         .pay-btn {
             background-color: #28a745;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 20px;
             font-size: 18px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 20px;
+            width: 100%;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .pay-btn:hover {
+            background-color: #218838;
         }
 
         .popup {
@@ -108,6 +133,7 @@
         .payment-option button i {
             margin-right: 5px;
         }
+
     </style>
 </head>
 <body>
@@ -116,21 +142,18 @@
         <h1>Pay to Samarth</h1>
 
         <!-- Currency Selection -->
-        <div class="currency-container">
-            <label>Rupee ₹</label>
-            <input type="radio" name="currency" id="rupee" checked onclick="setCurrency('rupee')">
-            <label>Dollar $</label>
-            <input type="radio" name="currency" id="dollar" onclick="setCurrency('dollar')">
-            <label>Bitcoin ₿</label>
-            <input type="radio" name="currency" id="bitcoin" onclick="setCurrency('bitcoin')">
+        <div class="currency-selection">
+            <button onclick="setCurrency('rupee')">₹ Rupees</button>
+            <button onclick="setCurrency('dollar')">$ Dollars</button>
+            <button onclick="setCurrency('bitcoin')">₿ Bitcoin</button>
         </div>
 
-        <!-- Slider for Amount Selection -->
-        <div class="slider-container">
-            <input type="range" min="50" max="1000" value="100" class="slider" id="amountSlider" oninput="updateAmount()">
-            <input type="number" class="currency-input" id="amountInput" value="100" oninput="updateSlider()">
+        <!-- Amount Input -->
+        <div class="amount-input-container">
+            <input type="number" id="amountInput" class="amount-input" placeholder="Enter amount" />
         </div>
 
+        <!-- Pay Button -->
         <button class="pay-btn" onclick="showPopup()">Pay Now</button>
     </div>
 
