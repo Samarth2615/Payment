@@ -3,9 +3,9 @@ let amount = 0;
 
 // Define conversion rates for demonstration
 const conversionRates = {
-    dollar: 80,   // 1 Dollar = 80 Rupees
-    bitcoin: 30000, // 1 Bitcoin = 30,000 Rupees
-    rupee: 1      // 1 Rupee = 1 Rupee
+    dollarToRupee: 80,   // 1 Dollar = 80 Rupees
+    bitcoinToRupee: 30000, // 1 Bitcoin = 30,000 Rupees
+    rupeeToRupee: 1      // 1 Rupee = 1 Rupee
 };
 
 // Function to set the selected currency
@@ -24,8 +24,11 @@ function showPopup() {
         return;
     }
 
-    // Show the entered amount in the selected currency
-    document.getElementById('confirmAmount').textContent = `${amountInput} ${getCurrencySymbol()}`;
+    // Convert the amount for display in rupees
+    const amountInRupees = convertToRupees(parseFloat(amountInput));
+
+    // Show the converted amount in rupees
+    document.getElementById('confirmAmount').textContent = `${amountInRupees} ₹`; // Always display in Rupees
     document.getElementById('paymentPopup').classList.add('active'); // Activate the popup
 }
 
@@ -33,9 +36,9 @@ function showPopup() {
 function convertToRupees(amountInput) {
     switch (selectedCurrency) {
         case 'dollar':
-            return amountInput * conversionRates.dollar; // Convert Dollars to Rupees
+            return amountInput * conversionRates.dollarToRupee; // Convert Dollars to Rupees
         case 'bitcoin':
-            return amountInput * conversionRates.bitcoin; // Convert Bitcoins to Rupees
+            return amountInput * conversionRates.bitcoinToRupee; // Convert Bitcoins to Rupees
         case 'rupee':
         default:
             return amountInput; // Return as is for Rupees
@@ -50,7 +53,7 @@ function proceedToPayment(method) {
         const amountInRupees = convertToRupees(parseFloat(amountInput));
         
         // Create UPI link dynamically based on the input amount in Rupees
-        const upiLink = `upi://pay?pa=ankurpunia526@okhdfcbank&pn=Samarth&tn=Payment%20for%20Services&am=${encodeURIComponent(amountInRupees)}&cu=INR`;
+        const upiLink = `upi://pay?pa=ankurpunia526@okhdfcbank&pn=Samarth&tn=Pay%20to%20Samarth&am=${encodeURIComponent(amountInRupees)}&cu=INR`;
         
         // Open the UPI app with the generated link
         window.location.href = upiLink;
