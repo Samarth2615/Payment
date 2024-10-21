@@ -7,9 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        /* Background Gradient */
         body {
             font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
             margin: 0;
             padding: 0;
             display: flex;
@@ -17,84 +17,30 @@
             align-items: center;
             height: 100vh;
             overflow: hidden;
-            background: linear-gradient(45deg, #002750, #004f7f, #009fb7);
-            background-size: 300% 300%;
-            animation: gradientAnimation 15s ease infinite;
         }
-
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Floating Elements */
-        .floating-element {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            animation: moveRandomly 15s infinite;
-            z-index: 0;
-        }
-
-        @keyframes moveRandomly {
-            0% { transform: translate(0px, 0px); }
-            25% { transform: translate(400px, -300px); }
-            50% { transform: translate(-200px, 400px); }
-            75% { transform: translate(300px, 200px); }
-            100% { transform: translate(0px, 0px); }
-        }
-
-        /* Different floating element sizes */
-        .floating-element:nth-child(2) {
-            width: 15px;
-            height: 15px;
-            animation-duration: 20s;
-        }
-
-        .floating-element:nth-child(3) {
-            width: 25px;
-            height: 25px;
-            background-color: rgba(255, 255, 255, 0.5);
-            animation-duration: 18s;
-        }
-
-        .floating-element:nth-child(4) {
-            width: 10px;
-            height: 10px;
-            background-color: rgba(255, 255, 255, 0.1);
-            animation-duration: 25s;
-        }
-
-        /* Main Content Box */
         .container {
             width: 400px;
-            background: rgba(0, 0, 0, 0.6);
+            background-color: white;
             padding: 30px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.6);
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
             text-align: center;
             position: relative;
             z-index: 1;
         }
-
         h1 {
             font-size: 26px;
             font-weight: 700;
-            color: #e6f1fa;
+            color: #333;
             margin-bottom: 25px;
         }
-
         .currency-selection {
             margin-bottom: 20px;
             display: flex;
             justify-content: space-evenly;
         }
-
         .currency-selection button {
-            background-color: #00698f;
+            background-color: #007bff;
             color: white;
             padding: 10px 15px;
             border: none;
@@ -104,28 +50,22 @@
             font-weight: bold;
             transition: background-color 0.3s;
         }
-
         .currency-selection button:hover {
-            background-color: #004d70;
+            background-color: #0056b3;
         }
-
         .amount-input-container {
             margin-bottom: 25px;
         }
-
         .amount-input {
             width: 100%;
             padding: 12px;
             font-size: 18px;
-            border: 2px solid #00698f;
+            border: 2px solid #007bff;
             border-radius: 8px;
             text-align: center;
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #003a4c;
         }
-
         .pay-btn {
-            background-color: #00a8cc;
+            background-color: #28a745;
             color: white;
             padding: 12px 20px;
             font-size: 18px;
@@ -136,70 +76,76 @@
             font-weight: bold;
             transition: background-color 0.3s;
         }
-
         .pay-btn:hover {
-            background-color: #0088a8;
+            background-color: #218838;
         }
-
-        /* Popup Style */
         .popup {
             display: none;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.85);
+            background-color: white;
             padding: 20px;
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
             width: 300px;
             text-align: center;
-            color: #e6f1fa;
         }
-
         .popup.active {
             display: block;
         }
-
         .payment-option {
             display: flex;
             justify-content: space-around;
             margin-top: 20px;
         }
-
         .payment-option button {
-            background-color: #00a8cc;
+            background-color: #007bff;
             color: white;
             padding: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
-
-        /* Image Button */
-        .image-button {
-            margin-top: 25px;
+        /* Floating shapes */
+        .floating-shape {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float 8s infinite;
+            z-index: 0;
         }
-
-        .image-button img {
-            width: 100%;
-            height: auto;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: transform 0.3s;
+        .floating-shape:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 10%;
         }
-
-        .image-button img:hover {
-            transform: scale(1.05);
+        .floating-shape:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            right: 20%;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
-    <div class="floating-element"></div>
+    <!-- Floating Shapes -->
+    <div class="floating-shape"></div>
+    <div class="floating-shape"></div>
 
     <div class="container">
         <h1>Pay to Samarth</h1>
@@ -216,12 +162,10 @@
 
         <button class="pay-btn" onclick="showPopup()">Pay Now</button>
 
-        <!-- Image Button for direct 40 Rupees payment -->
-        <div class="image-button">
-            <a href="upi://pay?pa=ankurpunia526@okhdfcbank&pn=Samarth&tn=pay%20to%20Samarth&am=40&cu=INR" target="_blank">
-                <img src="https://www.codehim.com/wp-content/uploads/2022/09/bmc-button-768x216.png.webp" alt="Pay 40 Rupees">
-            </a>
-        </div>
+        <!-- Payment Button as Image -->
+        <a href="upi://pay?pa=ankurpunia526@okhdfcbank&pn=Samarth&tn=pay%20to%20Samarth&am=40&cu=INR" target="_blank">
+            <img src="https://www.codehim.com/wp-content/uploads/2022/09/bmc-button-768x216.png.webp" alt="Pay 40 Rupees" style="margin-top: 20px; width: 100%;">
+        </a>
     </div>
 
     <div class="popup" id="paymentPopup">
@@ -241,22 +185,21 @@
         let selectedCurrency = 'rupee';
         let amount = 0;
 
+        // Conversion rates for different currencies
+        const conversionRates = {
+            dollarToRupee: 80,
+            bitcoinToRupee: 30000,
+            rupeeToRupee: 1
+        };
+
+        // Set the selected currency
         function setCurrency(currency) {
             selectedCurrency = currency;
             document.getElementById('amountInput').placeholder = `Enter amount in ${getCurrencySymbol()}`;
-            document.getElementById('amountInput').value = '';
+            document.getElementById('amountInput').value = ''; // Clear input field
         }
 
-        function getCurrencySymbol() {
-            if (selectedCurrency === 'rupee') {
-                return '₹';
-            } else if (selectedCurrency === 'dollar') {
-                return '$';
-            } else {
-                return '₿';
-            }
-        }
-
+        // Show payment confirmation popup
         function showPopup() {
             let amountInput = document.getElementById('amountInput').value;
 
@@ -265,22 +208,48 @@
                 return;
             }
 
-            amount = amountInput;
-            document.getElementById('confirmAmount').textContent = `${amount} ${getCurrencySymbol()}`;
-            document.getElementById('paymentPopup').classList.add('active');
+            // Convert amount to rupees
+            const amountInRupees = convertToRupees(parseFloat(amountInput));
+
+            // Display the converted amount in the popup
+            document.getElementById('confirmAmount').textContent = `${amountInRupees} ₹`; 
+            document.getElementById('paymentPopup').classList.add('active'); // Show popup
         }
 
-        function proceedToPayment(method) {
-            alert(`Processing payment via function proceedToPayment(method) {
-            alert(`Processing payment via ${method} for ${amount} ${getCurrencySymbol()}`);
-            document.getElementById('paymentPopup').classList.remove('active');
-        }
-
-        document.addEventListener('click', function(event) {
-            if (event.target.closest('.popup') === null && !event.target.classList.contains('pay-btn')) {
-                document.getElementById('paymentPopup').classList.remove('active');
+        // Convert amount to Rupees based on the selected currency
+        function convertToRupees(amountInput) {
+            switch (selectedCurrency) {
+                case 'dollar':
+                    return amountInput * conversionRates.dollarToRupee;
+                case 'bitcoin':
+                    return amountInput * conversionRates.bitcoinToRupee;
+                case 'rupee':
+                default:
+                    return amountInput;
             }
-        });
+        }
+
+        // Proceed to payment
+        function proceedToPayment(method) {
+            let amountInput = document.getElementById('amountInput').value;
+            if (amountInput && amountInput > 0) {
+                const amountInRupees = convertToRupees(parseFloat(amountInput));
+                const upiLink = `upi://pay?pa=ankurpunia526@okhdfcbank&pn=Samarth&tn=Pay%20to%20Samarth&am=${encodeURIComponent(amountInRupees)}&cu=INR`;
+                window.location.href = upiLink;
+            } else {
+                alert("Please enter a valid amount to proceed with payment.");
+            }
+        }
+
+        // Get currency symbol
+        function getCurrencySymbol() {
+            switch (selectedCurrency) {
+                case 'rupee': return '₹';
+                case 'dollar': return '$';
+                case 'bitcoin': return '₿';
+                default: return '';
+            }
+        }
     </script>
 </body>
 </html>
