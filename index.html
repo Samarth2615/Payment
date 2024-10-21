@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
-        /* Background Gradient (colors adjusted) */
+        /* Background Gradient */
         body {
             font-family: 'Roboto', sans-serif;
             margin: 0;
@@ -28,7 +28,7 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Randomly Moving Elements */
+        /* Floating Elements */
         .floating-element {
             position: absolute;
             width: 20px;
@@ -47,6 +47,7 @@
             100% { transform: translate(0px, 0px); }
         }
 
+        /* Different floating element sizes */
         .floating-element:nth-child(2) {
             width: 15px;
             height: 15px;
@@ -67,7 +68,7 @@
             animation-duration: 25s;
         }
 
-        /* Main Content Box (adjusted colors) */
+        /* Main Content Box */
         .container {
             width: 400px;
             background: rgba(0, 0, 0, 0.6);
@@ -92,7 +93,6 @@
             justify-content: space-evenly;
         }
 
-        /* Buttons (adjusted colors) */
         .currency-selection button {
             background-color: #00698f;
             color: white;
@@ -109,7 +109,6 @@
             background-color: #004d70;
         }
 
-        /* Input (adjusted) */
         .amount-input-container {
             margin-bottom: 25px;
         }
@@ -125,7 +124,6 @@
             color: #003a4c;
         }
 
-        /* Pay Button (adjusted colors) */
         .pay-btn {
             background-color: #00a8cc;
             color: white;
@@ -249,6 +247,16 @@
             document.getElementById('amountInput').value = '';
         }
 
+        function getCurrencySymbol() {
+            if (selectedCurrency === 'rupee') {
+                return '₹';
+            } else if (selectedCurrency === 'dollar') {
+                return '$';
+            } else {
+                return '₿';
+            }
+        }
+
         function showPopup() {
             let amountInput = document.getElementById('amountInput').value;
 
@@ -263,6 +271,16 @@
         }
 
         function proceedToPayment(method) {
-            let amount = document.getElementById('amountInput').value;
-            if (amount && amount > 0) {
-                alert(`Proceeding to payment of ${amount} using ${method}`);
+            alert(`Processing payment via function proceedToPayment(method) {
+            alert(`Processing payment via ${method} for ${amount} ${getCurrencySymbol()}`);
+            document.getElementById('paymentPopup').classList.remove('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            if (event.target.closest('.popup') === null && !event.target.classList.contains('pay-btn')) {
+                document.getElementById('paymentPopup').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
