@@ -1,21 +1,21 @@
-let selectedCurrency = 'rupee';
+let selectedCurrency = 'rupee'; // Default currency is Rupees
 let amount = 0;
 
-// Define conversion rates for demonstration
+// Conversion rates for different currencies
 const conversionRates = {
-    dollarToRupee: 80,   // 1 Dollar = 80 Rupees
-    bitcoinToRupee: 30000, // 1 Bitcoin = 30,000 Rupees
-    rupeeToRupee: 1      // 1 Rupee = 1 Rupee
+    dollarToRupee: 80,        // 1 Dollar = 80 Rupees
+    bitcoinToRupee: 30000,    // 1 Bitcoin = 30,000 Rupees
+    rupeeToRupee: 1           // 1 Rupee = 1 Rupee
 };
 
-// Function to set the selected currency
+// Set the selected currency
 function setCurrency(currency) {
     selectedCurrency = currency;
     document.getElementById('amountInput').placeholder = `Enter amount in ${getCurrencySymbol()}`;
     document.getElementById('amountInput').value = ''; // Clear the input field
 }
 
-// Function to show the payment popup
+// Show payment confirmation popup
 function showPopup() {
     let amountInput = document.getElementById('amountInput').value;
 
@@ -24,15 +24,15 @@ function showPopup() {
         return;
     }
 
-    // Convert the amount for display in rupees
+    // Convert amount to rupees
     const amountInRupees = convertToRupees(parseFloat(amountInput));
 
-    // Show the converted amount in rupees
-    document.getElementById('confirmAmount').textContent = `${amountInRupees} ₹`; // Always display in Rupees
+    // Display the converted amount in the popup
+    document.getElementById('confirmAmount').textContent = `${amountInRupees} ₹`; // Always show in Rupees
     document.getElementById('paymentPopup').classList.add('active'); // Activate the popup
 }
 
-// Function to convert the amount to Rupees for UPI payment
+// Convert amount to Rupees based on the selected currency
 function convertToRupees(amountInput) {
     switch (selectedCurrency) {
         case 'dollar':
@@ -45,8 +45,8 @@ function convertToRupees(amountInput) {
     }
 }
 
-// Function to proceed to payment
-function proceedToPayment(method) {
+// Proceed to payment
+function proceedToPayment() {
     let amountInput = document.getElementById('amountInput').value; // Get the entered amount
     if (amountInput && amountInput > 0) {
         // Convert the amount for processing in the UPI link
@@ -62,7 +62,7 @@ function proceedToPayment(method) {
     }
 }
 
-// Function to get the currency symbol based on selection
+// Get currency symbol based on selected currency
 function getCurrencySymbol() {
     switch (selectedCurrency) {
         case 'rupee': return '₹';
