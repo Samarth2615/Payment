@@ -4,252 +4,228 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pay to Samarth</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
-            margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden;
+            background: linear-gradient(to bottom right, #00008b, #add8e6);
+            color: #fff;
+            margin: 0;
         }
+
         .container {
-            width: 400px;
-            background-color: white;
+            background-color: #1e1e1e;
             padding: 30px;
-            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
             border-radius: 15px;
             text-align: center;
-            position: relative;
-            z-index: 1;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.7);
         }
+
         h1 {
-            font-size: 26px;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
+            font-size: 24px;
         }
+
         .currency-selection {
             margin-bottom: 20px;
-            display: flex;
-            justify-content: space-evenly;
         }
+
         .currency-selection button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 15px;
+            margin: 0 5px;
+            padding: 10px 20px;
+            font-size: 16px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
+            background-color: #333;
+            color: white;
             transition: background-color 0.3s;
         }
+
         .currency-selection button:hover {
-            background-color: #0056b3;
+            background-color: #444;
         }
-        .amount-input-container {
-            margin-bottom: 25px;
+
+        #amountInput {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            width: 80%;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
         }
-        .amount-input {
-            width: 100%;
-            padding: 12px;
-            font-size: 18px;
-            border: 2px solid #007bff;
-            border-radius: 8px;
-            text-align: center;
-        }
-        .pay-btn {
+
+        #payNowButton {
             background-color: #28a745;
             color: white;
-            padding: 12px 20px;
+            padding: 12px 25px;
             font-size: 18px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            width: 100%;
-            font-weight: bold;
             transition: background-color 0.3s;
         }
-        .pay-btn:hover {
+
+        #payNowButton:hover {
             background-color: #218838;
         }
+
         .popup {
             display: none;
-            position: absolute;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            background-color: #333;
             border-radius: 10px;
-            width: 300px;
-            text-align: center;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+            padding: 25px;
+            width: 350px;
+            color: #fff;
         }
+
         .popup.active {
             display: block;
         }
+
+        .popup h3 {
+            margin-top: 0;
+        }
+
         .payment-option {
             display: flex;
             justify-content: space-around;
             margin-top: 20px;
         }
-        .payment-option button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
+
+        .payment-option img {
+            width: 40px;
+            height: 40px;
             cursor: pointer;
+            transition: transform 0.2s;
         }
-        /* Floating shapes */
-        .floating-shape {
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            animation: float 8s infinite;
-            z-index: 0;
+
+        .payment-option img:hover {
+            transform: scale(1.1);
         }
-        .floating-shape:nth-child(1) {
-            width: 100px;
-            height: 100px;
-            top: 10%;
-            left: 10%;
-        }
-        .floating-shape:nth-child(2) {
-            width: 150px;
-            height: 150px;
-            bottom: 20%;
-            right: 20%;
-        }
-        @keyframes float {
-            0% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-            100% {
-                transform: translateY(0);
-            }
+
+        .payment-option div {
+            text-align: center;
+            color: #fff;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Floating Shapes -->
-    <div class="floating-shape"></div>
-    <div class="floating-shape"></div>
-
-    <div class="container">
-        <h1>Pay to Samarth</h1>
-
-        <div class="currency-selection">
-            <button onclick="setCurrency('rupee')">₹ Rupees</button>
-            <button onclick="setCurrency('dollar')">$ Dollars</button>
-            <button onclick="setCurrency('bitcoin')">₿ Bitcoin</button>
-        </div>
-
-        <div class="amount-input-container">
-            <input type="number" id="amountInput" class="amount-input" placeholder="Enter amount" />
-        </div>
-
-        <button class="pay-btn" onclick="showPopup()">Pay Now</button>
-
-        <!-- Payment Button as Image -->
-        <a href="upi://pay?pa=ankurpunia526@okhdfcbank&pn=Samarth&tn=pay%20to%20Samarth&am=40&cu=INR" target="_blank">
-            <img src="https://www.codehim.com/wp-content/uploads/2022/09/bmc-button-768x216.png.webp" alt="Pay 40 Rupees" style="margin-top: 20px; width: 100%;">
-        </a>
+<div class="container">
+    <h1>Pay to Samarth</h1>
+    <div class="currency-selection">
+        <button onclick="setCurrency('rupee')">₹ Rupees</button>
+        <button onclick="setCurrency('dollar')">$ Dollars</button>
+        <button onclick="setCurrency('bitcoin')">₿ Bitcoin</button>
     </div>
+    <input type="number" id="amountInput" placeholder="Enter amount in ₹">
+    <br>
+    <button id="payNowButton" onclick="showPopup()">Pay Now</button>
+</div>
 
-    <div class="popup" id="paymentPopup">
-        <h2>Confirm Payment</h2>
-        <p>Amount: <span id="confirmAmount"></span></p>
-        <div class="payment-option">
-            <button onclick="proceedToPayment('Net Banking')">
-                <i class="fas fa-university"></i> Net Banking
-            </button>
-            <button onclick="proceedToPayment('Card')">
-                <i class="fas fa-credit-card"></i> Card
-            </button>
+<div class="popup" id="paymentPopup">
+    <h3>Choose Payment Method</h3>
+    <div class="payment-option">
+        <div>
+            <img src="https://img.icons8.com/material-rounded/48/ffffff/bank.png" alt="Net Banking" onclick="redirectToNetBanking()">
+            <p>Net Banking</p>
+        </div>
+        <div>
+            <img src="https://img.icons8.com/ios-filled/50/ffffff/bank-card-back-side.png" alt="Credit/Debit Card" onclick="redirectToCard()">
+            <p>Card Payment</p>
         </div>
     </div>
+</div>
 
-    <script>
-        let selectedCurrency = 'rupee';
-        let amount = 0;
+<div class="popup" id="confirmationPopup">
+    <h3>Confirm Payment</h3>
+    <p>Amount: <span id="confirmAmount">0 ₹</span></p>
+    <p>Receiver: Samarth</p>
+    <button onclick="proceedToPayment()">Proceed to Pay</button>
+</div>
 
-        // Conversion rates for different currencies
-        const conversionRates = {
-            dollarToRupee: 80,
-            bitcoinToRupee: 30000,
-            rupeeToRupee: 1
-        };
+<script>
+    let selectedCurrency = 'rupee';
+    let amount = 0;
 
-        // Set the selected currency
-        function setCurrency(currency) {
-            selectedCurrency = currency;
-            document.getElementById('amountInput').placeholder = `Enter amount in ${getCurrencySymbol()}`;
-            document.getElementById('amountInput').value = ''; // Clear input field
+    const conversionRates = {
+        dollarToRupee: 80,   // 1 Dollar = 80 Rupees
+        bitcoinToRupee: 30000, // 1 Bitcoin = 30,000 Rupees
+        rupeeToRupee: 1      // 1 Rupee = 1 Rupee
+    };
+
+    function setCurrency(currency) {
+        selectedCurrency = currency;
+        document.getElementById('amountInput').placeholder = `Enter amount in ${getCurrencySymbol()}`;
+        document.getElementById('amountInput').value = '';
+    }
+
+    function showPopup() {
+        let amountInput = document.getElementById('amountInput').value;
+
+        if (!amountInput || amountInput <= 0) {
+            alert("Please enter a valid amount to proceed with payment.");
+            return;
         }
 
-        // Show payment confirmation popup
-        function showPopup() {
-            let amountInput = document.getElementById('amountInput').value;
+        const amountInRupees = convertToRupees(parseFloat(amountInput));
+        document.getElementById('confirmAmount').textContent = `${amountInRupees} ₹`;
+        document.getElementById('confirmationPopup').classList.add('active');
+    }
 
-            if (!amountInput || amountInput <= 0) {
-                alert("Please enter a valid amount to proceed with payment.");
-                return;
-            }
+    function convertToRupees(amountInput) {
+        switch (selectedCurrency) {
+            case 'dollar':
+                return amountInput * conversionRates.dollarToRupee;
+            case 'bitcoin':
+                return amountInput * conversionRates.bitcoinToRupee;
+            case 'rupee':
+            default:
+                return amountInput;
+        }
+    }
 
-            // Convert amount to rupees
+    function proceedToPayment() {
+        let amountInput = document.getElementById('amountInput').value;
+        if (amountInput && amountInput > 0) {
             const amountInRupees = convertToRupees(parseFloat(amountInput));
-
-            // Display the converted amount in the popup
-            document.getElementById('confirmAmount').textContent = `${amountInRupees} ₹`; 
-            document.getElementById('paymentPopup').classList.add('active'); // Show popup
+            const upiLink = `upi://pay?pa=ankurpunia526@okhdfcbank&pn=Samarth&tn=Pay%20to%20Samarth&am=${encodeURIComponent(amountInRupees)}&cu=INR`;
+            window.location.href = upiLink;
+        } else {
+            alert("Please enter a valid amount to proceed with payment.");
         }
+    }
 
-        // Convert amount to Rupees based on the selected currency
-        function convertToRupees(amountInput) {
-            switch (selectedCurrency) {
-                case 'dollar':
-                    return amountInput * conversionRates.dollarToRupee;
-                case 'bitcoin':
-                    return amountInput * conversionRates.bitcoinToRupee;
-                case 'rupee':
-                default:
-                    return amountInput;
-            }
+    function getCurrencySymbol() {
+        switch (selectedCurrency) {
+            case 'rupee': return '₹';
+            case 'dollar': return '$';
+            case 'bitcoin': return '₿';
+            default: return '';
         }
+    }
 
-        // Proceed to payment
-        function proceedToPayment(method) {
-            let amountInput = document.getElementById('amountInput').value;
-            if (amountInput && amountInput > 0) {
-                const amountInRupees = convertToRupees(parseFloat(amountInput));
-                const upiLink = `upi://pay?pa=ankurpunia526@okhdfcbank&pn=Samarth&tn=Pay%20to%20Samarth&am=${encodeURIComponent(amountInRupees)}&cu=INR`;
-                window.location.href = upiLink;
-            } else {
-                alert("Please enter a valid amount to proceed with payment.");
-            }
-        }
+    function redirectToNetBanking() {
+        alert("Redirecting to Net Banking...");
+        // Add actual redirection code if needed
+    }
 
-        // Get currency symbol
-        function getCurrencySymbol() {
-            switch (selectedCurrency) {
-                case 'rupee': return '₹';
-                case 'dollar': return '$';
-                case 'bitcoin': return '₿';
-                default: return '';
-            }
-        }
-    </script>
+    function redirectToCard() {
+        alert("Development mode for 2 hours.");
+    }
+</script>
+
 </body>
 </html>
