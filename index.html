@@ -12,21 +12,24 @@
             align-items: center;
             height: 100vh;
             background: linear-gradient(to bottom right, #00008b, #add8e6);
-            color: #fff;
             margin: 0;
         }
 
         .container {
-            background-color: #1e1e1e;
-            padding: 30px;
+            background-color: #2c2f33;
+            padding: 40px;
             border-radius: 15px;
             text-align: center;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.7);
+            color: white;
+            max-width: 400px;
+            width: 100%;
         }
 
         h1 {
             margin-bottom: 20px;
             font-size: 24px;
+            color: #ffffff;
         }
 
         .currency-selection {
@@ -40,23 +43,23 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            background-color: #333;
+            background-color: #7289da;
             color: white;
             transition: background-color 0.3s;
         }
 
         .currency-selection button:hover {
-            background-color: #444;
+            background-color: #5865f2;
         }
 
         #amountInput {
-            padding: 10px;
+            padding: 12px;
             font-size: 16px;
             margin-bottom: 20px;
-            width: 80%;
+            width: 100%;
             border: none;
             border-radius: 5px;
-            background-color: #333;
+            background-color: #40444b;
             color: white;
         }
 
@@ -69,6 +72,7 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            width: 100%;
         }
 
         #payNowButton:hover {
@@ -81,7 +85,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #333;
+            background-color: #40444b;
             border-radius: 10px;
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
             padding: 25px;
@@ -95,6 +99,7 @@
 
         .popup h3 {
             margin-top: 0;
+            color: #ffffff;
         }
 
         .payment-option {
@@ -118,6 +123,21 @@
             text-align: center;
             color: #fff;
             font-size: 14px;
+        }
+
+        .close-btn {
+            background-color: #ff5c5c;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .close-btn:hover {
+            background-color: #ff4444;
         }
     </style>
 </head>
@@ -147,6 +167,7 @@
             <p>Card Payment</p>
         </div>
     </div>
+    <button class="close-btn" onclick="closePopup()">Close</button>
 </div>
 
 <div class="popup" id="confirmationPopup">
@@ -161,9 +182,9 @@
     let amount = 0;
 
     const conversionRates = {
-        dollarToRupee: 80,   // 1 Dollar = 80 Rupees
-        bitcoinToRupee: 30000, // 1 Bitcoin = 30,000 Rupees
-        rupeeToRupee: 1      // 1 Rupee = 1 Rupee
+        dollarToRupee: 80,   
+        bitcoinToRupee: 30000, 
+        rupeeToRupee: 1      
     };
 
     function setCurrency(currency) {
@@ -180,9 +201,11 @@
             return;
         }
 
-        const amountInRupees = convertToRupees(parseFloat(amountInput));
-        document.getElementById('confirmAmount').textContent = `${amountInRupees} ₹`;
-        document.getElementById('confirmationPopup').classList.add('active');
+        document.getElementById('paymentPopup').classList.add('active');
+    }
+
+    function closePopup() {
+        document.getElementById('paymentPopup').classList.remove('active');
     }
 
     function convertToRupees(amountInput) {
@@ -195,6 +218,21 @@
             default:
                 return amountInput;
         }
+    }
+
+    // Updated function to show the correct amount in the confirmation popup
+    function redirectToNetBanking() {
+        let amountInput = document.getElementById('amountInput').value;
+        const amountInRupees = convertToRupees(parseFloat(amountInput));
+
+        document.getElementById('confirmAmount').textContent = `${amountInRupees} ₹`;
+        document.getElementById('paymentPopup').classList.remove('active');
+        document.getElementById('confirmationPopup').classList.add('active');
+    }
+
+    function redirectToCard() {
+        document.getElementById('paymentPopup').classList.remove('active');
+        alert("Card payments are under development. Please try again later.");
     }
 
     function proceedToPayment() {
@@ -215,15 +253,6 @@
             case 'bitcoin': return '₿';
             default: return '';
         }
-    }
-
-    function redirectToNetBanking() {
-        alert("Redirecting to Net Banking...");
-        // Add actual redirection code if needed
-    }
-
-    function redirectToCard() {
-        alert("Development mode for 2 hours.");
     }
 </script>
 
